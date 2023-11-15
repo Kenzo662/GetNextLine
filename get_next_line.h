@@ -1,5 +1,5 @@
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 6
 
 #endif
 

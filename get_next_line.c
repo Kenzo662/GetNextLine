@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:28:17 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/15 19:11:03 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/15 21:18:04 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,22 @@ char    *get_next_line(int fd)
     ft_memset(buffer, '\0', BUFFER_SIZE + 1);
     while (ft_boolstrchr(buffer, '\n') != 1)
     {
-        bytes = read(fd, buffer, BUFFER_SIZE + 1);
-        if (bytes == 0)  
-            return (free(buffer), line);
+        bytes = read(fd, buffer, BUFFER_SIZE);
         if (stash[fd] && !line)
-            line = ft_strjoin(line, stash[fd]);
+            line = ft_strjoin(line, stash[fd]); 
+        if (bytes == 0)
+        {
+            line = ft_strjoin(line, buffer);
+            ft_cut4stash(buffer, stash, fd);
+            return (free(buffer), line);
+        }   
         line = ft_strjoin(line, buffer);
     }
-    line = ft_cutline(line, '\n');
+    //printf("line = %s", line);
     ft_cut4stash(buffer, stash, fd);
-    return (line);
+    line = ft_cutline(line, '\n');
+    //printf("a");
+    return (free(buffer), line);
 }
 
 int main(void)
@@ -56,6 +62,9 @@ int main(void)
     
     fd = open("texte.txt", O_RDONLY);
     char *str = get_next_line(fd);
+    printf("%s", str);
+    free(str);
+    str = get_next_line(fd);
     printf("%s", str);
     free(str);
     str = get_next_line(fd);

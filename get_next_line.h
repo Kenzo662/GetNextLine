@@ -1,5 +1,5 @@
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 50
 
 #endif
 
@@ -11,11 +11,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-char	*ft_strjoin(const char *s1, const char *s2);
-char	*ft_strdup(const char *s);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char *s1, const char *s2);
 int	    ft_boolstrchr(const char *s, int c);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	*ft_cutline(char *str, char c);
-
+void	*ft_memset(void *s, int c, size_t n);
+void    ft_cut4stash(char *str, char stash[1024][BUFFER_SIZE + 1], int fd);
 
 #endif

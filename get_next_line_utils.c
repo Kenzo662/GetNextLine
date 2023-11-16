@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:23:49 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/15 19:02:29 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/16 19:17:37 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,18 @@ char	*ft_strjoin(char *s1, const char *s2)
 	return (s3);
 }
 
-int	ft_boolstrchr(const char *s, int c)
+int	ft_boolstrchr(const char *s, char c)
 {
 	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] == (char)c)
+		if (s[i] == c)
 		{
 			return (1);
 		}
 		i++;
-	}
-	if ((char)c == '\0')
-	{
-		return (0);
 	}
 	return (0);
 }

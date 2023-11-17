@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:28:17 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/17 17:22:54 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/17 18:44:05 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ char    *get_next_line(int fd)
     ft_memset(buffer, '\0', BUFFER_SIZE + 1);
     while ((bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
     {
+        if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+        {
+            return (NULL);
+        }
         if (stash[fd] && !line)
             line = ft_strjoin(line, stash[fd]);
         if (ft_boolstrchr(buffer, '\n') == 1)
@@ -64,6 +68,7 @@ char    *get_next_line(int fd)
         if (!line[0])
         {
             free(line);
+            free(buffer);
             return (NULL);
         }
     }
@@ -82,7 +87,7 @@ char    *get_next_line(int fd)
 //         printf("%s", str);
 //         free(str);
 //         str = get_next_line(fd);
-//     }
+//     } 
 //  }
 
 // int main (void)

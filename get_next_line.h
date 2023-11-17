@@ -1,5 +1,5 @@
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 10000
 
 #endif
 
@@ -17,5 +17,7 @@ int	    ft_boolstrchr(const char *s, char c);
 char	*ft_cutline(char *str, char c);
 void	*ft_memset(void *s, int c, size_t n);
 void    ft_cut4stash(char *str, char stash[1024][BUFFER_SIZE + 1], int fd);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char    *get_next_line(int fd);
 
 #endif

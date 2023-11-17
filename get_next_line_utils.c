@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:23:49 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/16 19:17:37 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/17 16:24:57 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,31 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	j;
+
+	j = 0;
+	while (src[j] != '\0')
+	{
+		j++;
+	}
+	if (size == 0)
+	{
+		return (j);
+	}
+	i = 0;
+	while (src[i] != '\0' && i < size - 1)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (j);
+}
+
 
 
 

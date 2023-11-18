@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:23:49 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/17 18:41:18 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/18 20:05:34 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,76 @@ int	ft_boolstrchr(const char *s, char c)
 }
 
 
-char	*ft_cutline(char *str, char c)
-{
-	int i;
-	int count;
-	char *tmp;
+// char	*ft_cutline(char *str, char c)
+// {
+// 	int i;
+// 	int count;
+// 	char *tmp;
 
-	count = 0;
-	i = 0;
-	while (str[count] && str[count] != c)
-		count++;
-	tmp = malloc(sizeof(char) * (count + 2));
-	if (!tmp)
-		return(NULL);
-	while (str[i] && str[i] != c)
-    {
-        tmp[i] = str[i];
+// 	count = 0;
+// 	i = 0;
+	
+// 	while (str[count] && str[count] != c)
+// 		count++;
+// 	tmp = malloc(sizeof(char) * (count + 2));
+// 	if (!tmp)
+// 		return(NULL);
+// 	while (str[i] && str[i] != c)
+//     {
+//         tmp[i] = str[i];
+//         i++;
+//     }
+// 	tmp[i] = str[i];
+// 	tmp[i + 1] = '\0';
+// 	if (str)
+// 		free(str);
+// 	return (tmp);
+// }
+
+char    *ft_cutline(char *str, char c)
+{
+    int     i;
+    char    *newstr;
+
+    if(!str)
+        return(NULL);
+    i = 0;
+    while (str[i] != c && str[i])
         i++;
-    }
-	tmp[i] = str[i];
-	tmp[i + 1] = '\0';
-	if (str)
-		free(str);
-	return (tmp);
+    if(str[i] == c)
+        i++;
+    newstr = ft_calloc(sizeof(char), i + 1);
+    if(!newstr)
+        return(NULL);
+    ft_memcpy(newstr, str, i);
+    free(str);
+    return(newstr);
 }
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*temp;
+
+	temp = malloc(count * size);
+	if (!temp)
+		return (NULL);
+	ft_memset(temp, '\0',count * size);
+	return ((void *)temp);
+}
+void	*ft_memcpy(void *dest, const void *src, size_t len)
+{
+	char		*dest_temp;
+	const char	*src_temp;
+	dest_temp = dest;
+	src_temp = src;
+	if (!dest_temp && !src_temp)
+		return (NULL);
+	while (len-- > 0)
+		*dest_temp++ = *src_temp++;
+	return (dest);
+}
+
+
 
 void	*ft_memset(void *s, int c, size_t n)
 {

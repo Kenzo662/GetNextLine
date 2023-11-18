@@ -6,7 +6,7 @@
 /*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:28:17 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/17 18:44:05 by klopez           ###   ########.fr       */
+/*   Updated: 2023/11/18 20:15:36 by klopez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,35 @@ char    *get_next_line(int fd)
     line = NULL;
     buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
     ft_memset(buffer, '\0', BUFFER_SIZE + 1);
-    while ((bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
+    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+        return(free(buffer), NULL);
+    if (ft_boolstrchr(stash[fd], '\n') == 1)
     {
-        if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+        if (stash[fd] && !line)
+            line = ft_strjoin(line, stash[fd]); 
+        ft_cut4stash(stash[fd], stash, fd);
+        if (!line[0])
         {
+            free(line);
+            free(buffer);
             return (NULL);
         }
+        line = ft_cutline(line, '\n');
+        return (free(buffer), line); 
+    }
+    while ((ft_memset(buffer, '\0', BUFFER_SIZE + 1)) && (bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
+    {
         if (stash[fd] && !line)
             line = ft_strjoin(line, stash[fd]);
         if (ft_boolstrchr(buffer, '\n') == 1)
         {
+            //printf("str = %s\n", line);
             line = ft_strjoin(line, buffer);
             ft_cut4stash(buffer, stash, fd);
             line = ft_cutline(line, '\n');
             return (free(buffer), line); 
         }
-        else
-            line = ft_strjoin(line, buffer);
+        line = ft_strjoin(line, buffer);
     }
     if (bytes == 0)
     {
@@ -72,24 +84,30 @@ char    *get_next_line(int fd)
             return (NULL);
         }
     }
+    if (bytes == -1)
+    {
+        ft_memset(stash[fd], '\0', BUFFER_SIZE + 1);
+        return(free(buffer),  NULL);
+    }
+            
     line = ft_cutline(line, '\n');
     return (free(buffer), line); 
 }
 
-// int main(void)
-// {
-//     int fd;
-    
-//     fd = open("texte.txt", O_RDONLY);
-//     char *str = get_next_line(fd);
-//     while (str != NULL)
-//     {
-//         printf("%s", str);
-//         free(str);
-//         str = get_next_line(fd);
-//     } 
-//  }
-
+//    int main(void)
+//  {
+//      int fd;
+  
+//      fd = open("texte.txt", O_RDONLY);
+//      char *str = get_next_line(fd);
+//      while (str != NULL)
+//      {
+//          printf("%s", str);
+//          free(str);
+//          str = get_next_line(fd);
+//      } 
+//   }
+  
 // int main (void)
 // {
 //     char s1[] = "Bonjour les amis\nca va?";

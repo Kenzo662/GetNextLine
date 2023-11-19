@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: klopez <klopez@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 12:28:17 by klopez            #+#    #+#             */
-/*   Updated: 2023/11/18 20:15:36 by klopez           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void    ft_cut4stash(char *str, char stash[1024][BUFFER_SIZE + 1], int fd)
 {
@@ -42,21 +30,16 @@ char    *get_next_line(int fd)
     line = NULL;
     buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
     ft_memset(buffer, '\0', BUFFER_SIZE + 1);
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || bytes == -1)
-        return(ft_memset(stash[fd], '\0', BUFFER_SIZE + 1), free(buffer), NULL);
+    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+        return(ft_memset(stash[fd], '\0', BUFFER_SIZE + 1), free(buffer), NULL);   
     if (ft_boolstrchr(stash[fd], '\n') == 1)
     {
         if (stash[fd] && !line)
             line = ft_strjoin(line, stash[fd]); 
         ft_cut4stash(stash[fd], stash, fd);
         if (!line[0])
-        {
-            free(line);
-            free(buffer);
-            return (NULL);
-        }
-        line = ft_cutline(line, '\n');
-        return (free(buffer), line); 
+            return (free(line), free(buffer), NULL);    
+        return (free(buffer), line = ft_cutline(line, '\n')); 
     }
     while ((ft_memset(buffer, '\0', BUFFER_SIZE + 1)) && (bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
     {
@@ -64,11 +47,9 @@ char    *get_next_line(int fd)
             line = ft_strjoin(line, stash[fd]);
         if (ft_boolstrchr(buffer, '\n') == 1)
         {
-            //printf("str = %s\n", line);
             line = ft_strjoin(line, buffer);
             ft_cut4stash(buffer, stash, fd);
-            line = ft_cutline(line, '\n');
-            return (free(buffer), line); 
+            return (free(buffer), line = ft_cutline(line, '\n')); 
         }
         line = ft_strjoin(line, buffer);
     }
@@ -78,20 +59,9 @@ char    *get_next_line(int fd)
             line = ft_strjoin(line, stash[fd]); 
         ft_cut4stash(stash[fd], stash, fd);
         if (!line[0])
-        {
-            free(line);
-            free(buffer);
-            return (NULL);
-        }
-    }
-    if (bytes == -1)
-    {
-        ft_memset(stash[fd], '\0', BUFFER_SIZE + 1);
-        return(free(buffer),  NULL);
-    }
-            
-    line = ft_cutline(line, '\n');
-    return (free(buffer), line); 
+            return (free(line), free(buffer), NULL);
+    }    
+    return (free(buffer), line = ft_cutline(line, '\n')); 
 }
 
 //    int main(void)

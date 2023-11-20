@@ -57,6 +57,7 @@ int	ft_boolstrchr(const char *s, char c)
 	return (0);
 }
 
+<<<<<<< HEAD:MANDATORY/get_next_line_utils.c
 char	*ft_cutline(char *str, char c)
 {
 	int		i;
@@ -83,6 +84,36 @@ char	*ft_cutline(char *str, char c)
 		free(str);
 	return (tmp);
 }
+=======
+
+ char	*ft_cutline(char *str, char c)
+ {
+ 	int i;
+ 	int count;
+ 	char *tmp;
+
+ 	count = 0;
+ 	i = 0;
+	
+ 	while (str[count] && str[count] != c)
+ 		count++;
+	if(str[count] == c)
+		count++;
+ 	tmp = malloc(sizeof(char) * (count + 1));
+	ft_memset(tmp, '\0', count + 1);
+	if (!tmp)
+ 		return(NULL);
+ 	while (str[i] && str[i] != c)
+     {
+         tmp[i] = str[i];
+		          i++;
+    }
+ 	tmp[i] = str[i];
+	if (str)
+ 		free(str);
+ 	return (tmp);
+	}
+>>>>>>> 4f20d7f9666e22252195c9e1cd8652bc4ac58cc5:get_next_line_utils.c
 
 void	*ft_memset(void *s, int c, size_t n)
 {
@@ -122,3 +153,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	dest[i] = '\0';
 	return (j);
 }
+<<<<<<< HEAD:MANDATORY/get_next_line_utils.c
+=======
+// int main (void)
+// {
+// 	printf("%s\n", ft_cutline2("Bonjour", 'o'));
+// }
+>>>>>>> 4f20d7f9666e22252195c9e1cd8652bc4ac58cc5:get_next_line_utils.c
